@@ -4,7 +4,6 @@ var printBox;
 var rgb = '';
 var autoQuote;
 
-
 // array of the quotes variable containing the different properties of each quote
 var quotes = [
   {
@@ -54,47 +53,46 @@ var quotes = [
 //function to create a random number with high and low as the parameters 
 function randomNumber(high, low) {
   return Math.floor(Math.random() * high) + low;
+};
 
 
-  //function to randomize the color of the background
-  function randomColor() {
-    rgb = 'rgb(' + randomNumber(255, 0) + ',' + randomNumber(255, 0) + ',' + randomNumber(255, 0) + ')';
-    document.body.style.backgroundColor = rgb;
-  };
+//function to randomize the color of the background
+function randomColor() {
+  rgb = 'rgb(' + randomNumber(255, 0) + ',' + randomNumber(255, 0) + ',' + randomNumber(255, 0) + ')';
+  document.body.style.backgroundColor = rgb;
+};
 
-  //function to get a random quote from the quotes array
-  function getRandomQuote() {
-    return quotes[randomNumber(quotes.length, 0)];
-  };
+//function to get a random quote from the quotes array
+function getRandomQuote() {
+  return quotes[randomNumber(quotes.length, 0)];
+};
 
-  //function to print a quote from the quotes array
-  function printQuote() {
-    clearInterval(autoQuote);
-    autoQuote = setInterval(printQuote, 30000);
+//function to print a quote from the quotes array
+function printQuote() {
+  clearInterval(autoQuote);
+  autoQuote = setInterval(printQuote, 30000);
+  getQuote = getRandomQuote();
+  printBox = '<p class=\'quote\'>' + getQuote.quote + '</p>';
+  printBox += '<p class=\'source\'>' + getQuote.source;
 
-    getQuote = getRandomQuote();
-    printBox = '<p class=\'quote\'>' + getQuote.quote + '</p>';
-    printBox += '<p class=\'source\'>' + getQuote.source;
+  if (getQuote.citation) {
+    printBox += '<span class=\'citation\'>' + getQuote.citation + '</span>';
+  }
 
-    if (getQuote.citation) {
-      printBox += '<span class=\'citation\'>' + getQuote.citation + '</span>';
-    }
+  if (getQuote.year) {
+    printBox += '<span class=\'year\'>' + getQuote.year + ',' + '</span>';
+  }
 
-    if (getQuote.year) {
-      printBox += '<span class=\'year\'>' + getQuote.year + ',' + '</span>';
-    }
+  if (getQuote.tags) {
+    printBox += '<span class=\'tags\'>' + ' ' + getQuote.tags.join(', ') + '</span>';
+  }
 
-    if (getQuote.tags) {
-      printBox += '<span class=\'tags\'>' + ' ' + getQuote.tags.join(', ') + '</span>';
-    }
+  printBox += '</p>';
+  document.getElementById('quote-box').innerHTML = printBox;
+  randomColor();
+};
 
-    printBox += '</p>';
-    document.getElementById('quote-box').innerHTML = printBox;
-    randomColor();
-  };
-
-  // event listener to respond to "Show another quote" button clicks
-  // when user clicks anywhere on the button, the "printQuote" function is called
-  document.getElementById("loadQuote").addEventListener("click", printQuote);
-
-  printQuote();
+// event listener to respond to "Show another quote" button clicks
+// when user clicks anywhere on the button, the "printQuote" function is called
+document.getElementById("loadQuote").addEventListener("click", printQuote);
+printQuote();
